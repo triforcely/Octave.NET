@@ -1,6 +1,8 @@
 # Octave.NET
 📈 More than cross-platform Octave process wrapper 🔬
 
+> Library is WIP and far from being production ready
+
 ## Motivation
 
 Octave (and/or matlab) has excellent library of ready to use components and lets us write simpler code for solving complex
