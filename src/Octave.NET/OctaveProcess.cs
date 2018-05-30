@@ -23,6 +23,8 @@ namespace Octave.NET
 
             BeginOutputReadLine();
             BeginErrorReadLine();
+
+            this.StandardInput.AutoFlush = false;
         }
 
         public bool CanBeReused => !isDisposed && !HasExited;
