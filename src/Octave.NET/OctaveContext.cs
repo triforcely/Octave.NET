@@ -87,7 +87,10 @@ namespace Octave.NET
                 workerProcess.ErrorDataReceived += LocalOnError;
 
                 foreach (var command in commands)
+                {
                     workerProcess.StandardInput.WriteLine(command);
+                    workerProcess.StandardInput.Flush();
+                }
 
                 workerProcess.StandardInput.WriteLine($"\"{localFinishToken}\"");
                 workerProcess.StandardInput.Flush();
