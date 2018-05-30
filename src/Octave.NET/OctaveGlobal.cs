@@ -3,7 +3,7 @@ using Octave.NET.Core.ObjectPooling;
 
 namespace Octave.NET
 {
-    partial class OctaveHost
+    partial class OctaveContext
     {
         private const string OctaveExecutable = "octave-cli";
         private static readonly object poolCreateLock = new object();
@@ -17,7 +17,7 @@ namespace Octave.NET
             {
                 if (processPool != null)
                     throw new InvalidOperationException(
-                        $"Can't change global settings when atleast one {nameof(OctaveHost)} instance was created.");
+                        $"Can't change global settings when atleast one {nameof(OctaveContext)} instance was created.");
 
                 _octaveSettings = value;
             }

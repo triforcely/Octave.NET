@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octave.NET", "Octave.NET\Octave.NET.csproj", "{57EA9834-43FA-4400-960D-19F365CA6BE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octave.NET.Tests", "Octave.NET.Tests\Octave.NET.Tests.csproj", "{713F5401-802A-42C9-8BD4-D1D238BF198B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octave.NET.Tests", "Octave.NET.Tests\Octave.NET.Tests.csproj", "{713F5401-802A-42C9-8BD4-D1D238BF198B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
