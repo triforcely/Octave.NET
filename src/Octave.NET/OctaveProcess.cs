@@ -30,6 +30,8 @@ namespace Octave.NET
             this.BeginErrorReadLine();
             this.BeginOutputReadLine();
 
+            this.StandardInput.WriteLine("warning('off','all');");
+
             this.StandardInput.AutoFlush = false;
         }
 
