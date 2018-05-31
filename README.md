@@ -47,4 +47,4 @@ OctaveContext is called octave context because... well, it represent single octa
 ### XYZ function does not work in octave - I get undefined!
 If your script does not work when you run it manually in octave, it won't work there. Make sure that all packages that you need are installed and loaded. 
 ### I try to display plot but nothing appears.
-There is an 2D plot example for that. "Async" octave operations are not supported, every operation should be synchronous.
+There is an 2D plot example for that. "Async" octave operations are not supported, every operation should be locking and synchronous.
