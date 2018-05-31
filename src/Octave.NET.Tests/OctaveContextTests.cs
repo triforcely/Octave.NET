@@ -10,7 +10,7 @@ namespace Octave.NET.Tests
     [TestClass]
     public class OctaveContextTests
     {
-        private const int Timeout = 15000;
+        private const int Timeout = 2500;
 
         public OctaveContextTests()
         {
@@ -113,7 +113,7 @@ namespace Octave.NET.Tests
         [ExpectedException(typeof(OctaveScriptError))]
         public void WhenPassedInvalidScript_ShouldThrowException()
         {
-            //arrange 
+            //arrange
             using (var octave = new OctaveContext())
             {
                 //act
@@ -130,24 +130,6 @@ namespace Octave.NET.Tests
             {
                 //act
                 octave.Execute("pause(100)", 25);
-            }
-        }
-
-        [TestMethod]
-        public void WhenInputFunctionUsedInExecuteMultiple_CapturesInput()
-        {
-            //arrange 
-            using (var octave = new OctaveContext())
-            {
-                //act
-                var res = octave.ExecuteMultiple(new string[]
-                {
-                    "input(\"prompt\")",
-                    "15"
-                }).AsScalar();
-
-                //assert
-                Assert.AreEqual(15, res);
             }
         }
 

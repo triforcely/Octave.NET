@@ -1,18 +1,20 @@
 ﻿using Octave.NET.Core.Exceptions;
 using Octave.NET.Core.ObjectPooling;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
 
 namespace Octave.NET
 {
+    public interface IOctaveContext
+    {
+        string Execute(string command, int timeout);
+    }
+
     /// <summary>
     /// Octave execution context.
     /// </summary>
-    public partial class OctaveContext : IDisposable
+    public partial class OctaveContext : IDisposable, IOctaveContext
     {
         private const int CommandTimeoutMilliseconds = 30000;
         private OctaveProcess workerProcess;
@@ -29,91 +31,6 @@ namespace Octave.NET
                         OctaveSettings.RemoveIdleWorkersTimePeriodMs, !OctaveSettings.PreventColdStarts,
                         OctaveSettings.MaximumConcurrency);
                 }
-
-                Initialize();
-            }
-        }
-
-        /// <summary>
-        ///     Execute series of commands and return combined response.
-        /// </summary>
-        /// <param name="commands">Collection with octave commands.</param>
-        /// <param name="timeout">Command timeout in milliseconds</param>
-        /// <exception cref="OctaveCommandTimeoutException"></exception>
-        /// <exception cref="OctaveScriptError"></exception>
-        public string ExecuteMultiple(IEnumerable<string> commands, int timeout = CommandTimeoutMilliseconds)
-        {
-            if (!commands.Any())
-                return "";
-
-            var localFinishToken = Guid.NewGuid().ToString();
-            var hasError = false;
-
-            var data = new StringBuilder();
-            var error = new StringBuilder();
-
-            var localMre = new AutoResetEvent(false);
-
-            void LocalOnData(object sender, DataReceivedEventArgs e)
-            {
-                if (e?.Data == null) return;
-
-                data.Append(e.Data);
-                data.Append(Environment.NewLine);
-
-                if (!e.Data.Contains(localFinishToken)) return;
-
-                data.Length -= Environment.NewLine.Length;
-                var finishTokenAnsLenght = "ans = ".Length + localFinishToken.Length;
-
-                data.Length -= Math.Min(data.Length, finishTokenAnsLenght);
-                localMre.Set();
-            }
-
-            void LocalOnError(object sender, DataReceivedEventArgs e)
-            {
-                if (e?.Data == null) return;
-
-                hasError = true;
-
-                error.Append(e.Data + Environment.NewLine);
-
-                localMre.Set();
-            }
-
-            try
-            {
-                workerProcess.OutputDataReceived += LocalOnData;
-                workerProcess.ErrorDataReceived += LocalOnError;
-
-                foreach (var command in commands)
-                {
-                    workerProcess.StandardInput.WriteLine(command);
-                    workerProcess.StandardInput.Flush();
-                }
-
-                workerProcess.StandardInput.WriteLine($"\"{localFinishToken}\"");
-                workerProcess.StandardInput.Flush();
-
-                var isDone = localMre.WaitOne(timeout);
-
-                if (hasError)
-                {
-                    Thread.Sleep(100); // wait so complete error is passed to event handler
-                    throw new OctaveScriptError(error.ToString().Trim());
-                }
-
-                error.Length -= Math.Min(error.Length, Environment.NewLine.Length);
-
-                if (!isDone) CommandTimeout();
-
-                var response = data.ToString().Trim();
-                return response;
-            }
-            finally
-            {
-                workerProcess.OutputDataReceived -= LocalOnData;
-                workerProcess.ErrorDataReceived -= LocalOnError;
             }
         }
 
@@ -126,7 +43,88 @@ namespace Octave.NET
         /// <exception cref="OctaveScriptError"></exception>
         public string Execute(string command, int timeout = CommandTimeoutMilliseconds)
         {
-            return this.ExecuteMultiple(new string[] { command }, timeout);
+            if (string.IsNullOrEmpty(command))
+                return "";
+
+            if (this.workerProcess == null)
+                Initialize();
+
+            var localFinishToken = Guid.NewGuid().ToString();
+            var hasError = false;
+
+            var data = new StringBuilder();
+            var error = new StringBuilder();
+
+            var localMre = new AutoResetEvent(false);
+
+            DataEventHandler LocalOnData = (object sender, string dataStr) =>
+            {
+                if (dataStr == null) return;
+
+                data.Append(dataStr);
+                data.Append(Environment.NewLine);
+
+                if (!dataStr.Contains(localFinishToken)) return;
+
+                data.Length -= Environment.NewLine.Length;
+                var finishTokenAnsLenght = "ans = ".Length + localFinishToken.Length;
+
+                data.Length -= Math.Min(data.Length, finishTokenAnsLenght);
+                localMre.Set();
+            };
+
+            DataEventHandler LocalOnError = (object sender, string errorStr) =>
+            {
+                if (errorStr == null) return;
+
+                hasError = true;
+
+                error.Append(errorStr + Environment.NewLine);
+
+                localMre.Set();
+            };
+
+            try
+            {
+                workerProcess.OnData += LocalOnData;
+                workerProcess.OnError += LocalOnError;
+
+                workerProcess.Write(command);
+                workerProcess.Write($"\"{localFinishToken}\"");
+
+                var isDone = localMre.WaitOne(timeout);
+
+                if (hasError)
+                {
+                    throw new System.IO.IOException();
+                }
+
+                error.Length -= Math.Min(error.Length, Environment.NewLine.Length);
+
+                if (!isDone) CommandTimeout();
+
+                var response = data.ToString().Trim();
+                return response;
+            }
+            catch (System.IO.IOException exception)
+            {
+                Thread.Sleep(25); // wait in case collected data is incomplete
+
+                workerProcess.OnData -= LocalOnData;
+                workerProcess.OnError -= LocalOnError;
+
+                UnloadWorkerProcess();
+
+                throw new OctaveScriptError(error.ToString(), exception);
+            }
+            finally
+            {
+                if (workerProcess != null)
+                {
+                    workerProcess.OnData -= LocalOnData;
+                    workerProcess.OnError -= LocalOnError;
+                }
+            }
         }
 
         public void Dispose()
@@ -158,9 +156,10 @@ namespace Octave.NET
         private void CommandTimeout()
         {
             //TODO find crossplatform way of doing CTRL+C/equivalent instead of throwing away process.
-            workerProcess.Kill(); // object pool will take care of it since it cannot be reused
+            if (!workerProcess.HasExited)
+                workerProcess.Kill(); // object pool will take care of it since it cannot be reused
+
             UnloadWorkerProcess();
-            Initialize();
 
             throw new OctaveCommandTimeoutException();
         }

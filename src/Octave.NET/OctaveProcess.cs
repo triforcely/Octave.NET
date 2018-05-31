@@ -5,6 +5,9 @@ namespace Octave.NET
 {
     internal class OctaveProcess : Process, IPoolable
     {
+        public event DataEventHandler OnData;
+        public event DataEventHandler OnError;
+
         private readonly bool isDisposed = false;
 
         public OctaveProcess(string octaveCliPath)
@@ -19,12 +22,31 @@ namespace Octave.NET
                 CreateNoWindow = true
             };
 
+            this.OutputDataReceived += OctaveProcess_OutputDataReceived;
+            this.ErrorDataReceived += OctaveProcess_ErrorDataReceived;
+
             Start();
 
-            BeginOutputReadLine();
-            BeginErrorReadLine();
+            this.BeginErrorReadLine();
+            this.BeginOutputReadLine();
 
             this.StandardInput.AutoFlush = false;
+        }
+
+        public void Write(string data)
+        {
+            this.StandardInput.WriteLine(data);
+            this.StandardInput.Flush();
+        }
+
+        private void OctaveProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            OnError?.Invoke(sender, e.Data);
+        }
+
+        private void OctaveProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            OnData?.Invoke(sender, e.Data);
         }
 
         public bool CanBeReused => !isDisposed && !HasExited;
@@ -37,4 +59,6 @@ namespace Octave.NET
             base.Dispose(disposing);
         }
     }
+
+    internal delegate void DataEventHandler(object sender, string data);
 }
