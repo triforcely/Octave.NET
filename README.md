@@ -43,7 +43,7 @@ Nope! After few seconds of inactivity (no attempts to execute octave commands) i
 If you don't mind few more MBs that are not released until your application is closed, you can use global configuration and set ```OctaveContext.OctaveSettings.PreventColdStarts = true;```
 Just remember to do this before first OctaveContext is created!
 ### I set some variables in octave but later when I tried to access them they were undefined!
-OctaveContext is called octave context because... well, it represent single octave context at the given point of time. Even though processes are reused, it is not guaranteed that you will get the same process. Your safest bet is to do all the work in single ```using(var octave = new OctaveContexT()) {...}``` block. Contexts will not be cleared. If you require that, simply send ```clear``` command.
+OctaveContext is called octave context because... well, it represent single octave context at the given point of time. Even though processes are reused, it is not guaranteed that you will get the same process. Your safest bet is to do all the work in single ```using(var octave = new OctaveContext()) {...}``` block. Contexts will not be cleared. If you require that, simply send ```clear``` command.
 ### XYZ function does not work in octave - I get undefined!
 If your script does not work when you run it manually in octave, it won't work there. Make sure that all packages that you need are installed and loaded. 
 ### I try to display plot but nothing appears.
