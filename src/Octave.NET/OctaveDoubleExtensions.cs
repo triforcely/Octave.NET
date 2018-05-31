@@ -16,13 +16,16 @@ namespace Octave.NET
         }
 
         /// <summary>
-        /// Convert array of doubles to octave input.
+        /// Convert array of doubles to octave input (vector).
         /// </summary>
         public static string ToOctave(this double[] vector)
         {
             return $"[{BuildVector(vector)}]";
         }
 
+        /// <summary>
+        /// Convert two-dimensional array of doubles to octave input (matrix).
+        /// </summary>
         public static string ToOctave(this double[][] matrix)
         {
             return $"[{BuildMatrix(matrix)}]";
