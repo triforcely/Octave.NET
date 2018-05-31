@@ -20,7 +20,7 @@ mathematical problems. This library is an attempt to bridge Octave and .NET worl
 
 - Install latest octave 
 - Add bin folder to system PATH variable
-  or specify path to octave-cli binary in you code 
+  or specify path to octave-cli binary in your code 
 - Check the 'examples' folder
 
 ## Confirmed compatibility
