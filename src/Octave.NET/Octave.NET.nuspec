@@ -5,7 +5,7 @@
     <id>Octave.NET</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.0.0-prerelease4</version>
+    <version>1.0.0</version>
 
     
     <description>Use GNU Octave in .NET applications.</description>
@@ -30,7 +30,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Hello nuget.</releaseNotes>
+    <releaseNotes>First release</releaseNotes>
 
     <!-- Copyright information -->
     <copyright>Copyright (c) 2018 Michał Wilski</copyright>
@@ -40,5 +40,6 @@
   </metadata>
   <files>
     <file src="bin\Release\netstandard2.0\Octave.NET.dll" target="lib\netstandard2.0\" />
+    <file src="bin\Release\netstandard2.0\Octave.NET.xml" target="lib\netstandard2.0\" />
   </files>
 </package>
