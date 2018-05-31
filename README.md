@@ -1,4 +1,4 @@
-# Octave.NET
+# Octave.NET [![Build Status](https://travis-ci.org/triforcely/Octave.NET.svg?branch=master)](https://travis-ci.org/triforcely/Octave.NET)
 📈 More than cross-platform Octave process wrapper 🔬
 
 > Library is WIP and far from being production ready
