@@ -5,7 +5,7 @@
     <id>Octave.NET</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 
     
     <description>Use GNU Octave in .NET applications.</description>
@@ -30,7 +30,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>First release</releaseNotes>
+    <releaseNotes>Fixes related to octave warnings.</releaseNotes>
 
     <!-- Copyright information -->
     <copyright>Copyright (c) 2018 Michał Wilski</copyright>
