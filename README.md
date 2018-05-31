@@ -1,7 +1,10 @@
 # Octave.NET [![Build Status](https://travis-ci.org/triforcely/Octave.NET.svg?branch=master)](https://travis-ci.org/triforcely/Octave.NET)
+
+![Octave.NET](https://i.imgur.com/nNGduNS.png)
+
 📈 More than cross-platform Octave process wrapper 🔬
 
-> Library is WIP and far from being production ready
+> Library is in an early stage and may not be suitable for rocket physics
 
 ## Motivation
 
@@ -15,5 +18,4 @@ single code-base and clean interface.
 
 ## Usage
 
-- Check the 'examples' solution. // TODO
-- See the [API docs](https://github.com/triforcely/Octave.NET) // TODO
+- Check the 'examples' folder
