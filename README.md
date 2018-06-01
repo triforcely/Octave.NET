@@ -5,7 +5,7 @@
 
 📈 More than cross-platform Octave process wrapper 🔬
 
-> Library is in an early stage and may not be suitable for rocket physics
+> Library is in an early stage and may not be suitable for real-time rocket physics
 
 ## Motivation
 
@@ -30,7 +30,6 @@ mathematical problems. This library is an attempt to bridge Octave and .NET worl
 | Win10 | 4.4.0  | ✔️  |
 | Ubuntu 16.04 LTS | 4.2.2       |   ✔️|
 
-MaximumConcurrency
 
 ## How It's Made? 
 This library spawns octave processes and controls them via standard streams (stin, stoud and stderr). To keep optimal performance every time OctaveContext is disposed underlying octave-cli process is returned to the object pool, so we don't waste precious time on spawning new worker processes (aka workers).
