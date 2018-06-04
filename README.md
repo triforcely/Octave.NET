@@ -27,7 +27,7 @@ mathematical problems. This library is an attempt to bridge Octave and .NET worl
 
 | OS            | Octave | Status |
 | ------------- |:--------------:| ------------:|
-| Win10 | 4.4.0  | ✔️  |
+| Windows 10 | 4.4.0  | ✔️  |
 | Ubuntu 16.04 LTS | 4.2.2       |   ✔️|
 
 
