@@ -5,9 +5,9 @@
     <id>Octave.NET</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>2.0.0-prerelease</version>
+    <version>2.0.0-prerelease1</version>
 
-    
+
     <description>Use GNU Octave in .NET applications.</description>
 
     <!-- Authors contain text that appears directly on the gallery -->
@@ -37,6 +37,12 @@
 
     <!-- Tags appear in the gallery and can be used for tag searches -->
     <tags>octave matlab data mining analysis</tags>
+
+    <dependencies>
+      <dependency id="System.Diagnostics.Process" version="4.3.0" />
+      <dependency id="System.Threading.Thread" version="4.3.0" />
+    </dependencies>
+
   </metadata>
   <files>
     <file src="bin\Release\netstandard1.3\Octave.NET.dll" target="lib\netstandard1.3\" />
