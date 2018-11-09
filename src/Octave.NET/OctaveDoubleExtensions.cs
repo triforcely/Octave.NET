@@ -1,18 +1,23 @@
 ﻿using System.Globalization;
-using System.Linq;
+using System.Text;
 
 namespace Octave.NET
 {
     public static class OctaveDoubleExtensions
     {
-        private static string BuildVector(double[] vector)
+        private static StringBuilder AppendVector(this StringBuilder stringBuilder, double[] vector)
         {
-            return vector.Select(x => x.ToString(CultureInfo.InvariantCulture)).Aggregate((a, b) => $"{a} {b}");
-        }
+            if (vector.Length > 0)
+            {
+                foreach (double d in vector)
+                {
+                    stringBuilder.Append(d.ToString(CultureInfo.InvariantCulture)).Append(' ');
+                }
 
-        private static string BuildMatrix(double[][] matrix)
-        {
-            return matrix.Select(BuildVector).Aggregate((a, b) => $"{a};{b}");
+                stringBuilder.Length--;
+            }
+
+            return stringBuilder;
         }
 
         /// <summary>
@@ -20,7 +25,7 @@ namespace Octave.NET
         /// </summary>
         public static string ToOctave(this double[] vector)
         {
-            return $"[{BuildVector(vector)}]";
+            return new StringBuilder().Append('[').AppendVector(vector).Append(']').ToString();
         }
 
         /// <summary>
@@ -28,7 +33,19 @@ namespace Octave.NET
         /// </summary>
         public static string ToOctave(this double[][] matrix)
         {
-            return $"[{BuildMatrix(matrix)}]";
+            StringBuilder stringBuilder = new StringBuilder().Append('[');
+
+            if (matrix.Length > 0)
+            {
+                foreach (double[] vector in matrix)
+                {
+                    stringBuilder.AppendVector(vector).Append(';');
+                }
+
+                stringBuilder.Length--;
+            }
+
+            return stringBuilder.Append(']').ToString();
         }
     }
 }
