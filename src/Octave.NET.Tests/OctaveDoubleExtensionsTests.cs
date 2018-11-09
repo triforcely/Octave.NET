@@ -19,6 +19,19 @@ namespace Octave.NET.Tests
         }
 
         [TestMethod]
+        public void EmptyVectorToOctave_ReturnsCorrectResult()
+        {
+            //arrange
+            var input = new double[0];
+
+            //act
+            var res = input.ToOctave();
+
+            //assert
+            Assert.AreEqual(res, "[]");
+        }
+
+        [TestMethod]
         public void MatrixToOctave_ReturnsCorrectResult()
         {
             //arrange
@@ -33,6 +46,19 @@ namespace Octave.NET.Tests
 
             //assert
             Assert.AreEqual(res, "[1 2 3;3 2 1]");
+        }
+
+        [TestMethod]
+        public void EmptyMatrixToOctave_ReturnsCorrectResult()
+        {
+            //arrange
+            var input = new double[0][];
+
+            //act
+            var res = input.ToOctave();
+
+            //assert
+            Assert.AreEqual(res, "[]");
         }
     }
 }
