@@ -60,6 +60,9 @@ namespace Octave.NET
 
         private static double ParseDouble(string number)
         {
+            if (number.Contains("-Inf"))
+                return double.MinValue;
+
             if (number.Contains("Inf"))
                 return double.MaxValue;
 
