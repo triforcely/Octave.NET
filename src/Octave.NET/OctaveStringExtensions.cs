@@ -10,12 +10,6 @@ namespace Octave.NET
         {
             input = CleanInput(input);
 
-            if (input.EndsWith("-Inf"))
-                return double.MinValue;
-
-            if (input.EndsWith("Inf"))
-                return double.MaxValue;
-
             return ParseDouble(input);
         }
 
