@@ -5,8 +5,6 @@
 
 📈 More than cross-platform Octave process wrapper 🔬
 
-> Library is in an early stage and may not be suitable for real-time rocket physics
-
 ## Motivation
 
 [Octave](https://www.gnu.org/software/octave/) (matlab) has excellent library of ready to use components and lets us write simpler code for solving complex
