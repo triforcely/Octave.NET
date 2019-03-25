@@ -1,4 +1,5 @@
 ﻿using Octave.NET.Core.ObjectPooling;
+using System;
 using System.Diagnostics;
 
 namespace Octave.NET
@@ -25,7 +26,14 @@ namespace Octave.NET
             this.OutputDataReceived += OctaveProcess_OutputDataReceived;
             this.ErrorDataReceived += OctaveProcess_ErrorDataReceived;
 
-            Start();
+            try
+            {
+                Start();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Unable to run '{octaveCliPath}' executable. Make sure that it exists and/or is added to environment PATH variable.", ex);
+            }
 
             this.BeginErrorReadLine();
             this.BeginOutputReadLine();
