@@ -1,6 +1,6 @@
 ﻿namespace Octave.NET.Core.ObjectPooling
 {
-    public interface IPoolable
+    internal interface IPoolable
     {
         bool CanBeReused { get; }
     }
