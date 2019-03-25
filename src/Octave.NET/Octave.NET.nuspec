@@ -5,7 +5,7 @@
     <id>Octave.NET</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>2.0.0-prerelease1</version>
+    <version>3.0.0</version>
 
 
     <description>Use GNU Octave in .NET applications.</description>
@@ -20,8 +20,9 @@
     <owners>triforcely</owners>
 
     <!-- License and project URLs provide links for the gallery -->
-    <licenseUrl>https://github.com/triforcely/Octave.NET/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/triforcely/Octave.NET</projectUrl>
+    
 
     <!-- 
             If true, this value prompts the user to accept the license when
@@ -31,8 +32,7 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      Release includes latest contributions. 
-      (https://github.com/triforcely/Octave.NET/pull/2 ; https://github.com/triforcely/Octave.NET/pull/3)
+      Better exception when process can't be spawned.
     </releaseNotes>
 
     <!-- Copyright information -->
