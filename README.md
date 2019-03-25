@@ -38,8 +38,8 @@ I don't know, it varies between operating systems. Use your favourite search eng
 In single-threaded scenario, there will be only one worker process spawned. In multithreaded scenario, library will try to supply demand for OctaveContext's by spawning more processes until the limit is reached - by default the number of logical processors in your machine. If the limit is reached and all workers are in use, calling thread will be locked until some worker is freed. You may be interested in ```OctaveContext.OctaveSettings.MaximumConcurrency``` global setting.
 ### What about applications that rarely use octave, are my resources wasted on idle processes?
 Nope! After few seconds of inactivity (no attempts to execute octave commands) internal pool will start to slowly release its resources. 
-### Sounds good but I'm running [insert some difficult analysis method here] on every HTTP request and they may happen every second or every hour. Cold starts are killing me. What can I do?
-If you don't mind few more MBs that are not released until your application is closed, you can use global configuration and set ```OctaveContext.OctaveSettings.PreventColdStarts = true;```
+### After a period of inactivity, first command execution takes a long time.
+All processes were probably disposed and you experience "cold start". If you don't mind few more MBs that are not released until your application is closed, you can use global configuration and set ```OctaveContext.OctaveSettings.PreventColdStarts = true;```
 Just remember to do this before first OctaveContext is created!
 ### I set some variables in octave but later when I tried to access them they were undefined!
 OctaveContext is called octave context because... well, it represent single octave context at the given point of time. Even though processes are reused, it is not guaranteed that you will get the same process. Your safest bet is to do all the work in single ```using(var octave = new OctaveContext()) {...}``` block. Contexts (e.g. octave variables) will not be cleared. If you require that, just execute```clear``` command.
