@@ -5,6 +5,10 @@
 
 📈 More than cross-platform Octave process wrapper 🔬
 
+# Read this, please!
+
+If you encounter 'OctaveScriptError' it most likely means that your script is wrong due to some syntax error. Please, debug the generated script in Octave before creating issue in this repository. I can only assist you with problems related to this library but I can't provide Octave related support.
+
 ## Motivation
 
 [Octave](https://www.gnu.org/software/octave/) (matlab) has excellent library of ready to use components and lets us write simpler code for solving complex
