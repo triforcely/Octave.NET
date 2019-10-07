@@ -30,6 +30,7 @@ mathematical problems. This library is an attempt to bridge Octave and .NET worl
 | OS            | Octave | Status |
 | ------------- |:--------------:| ------------:|
 | Windows 10 | 4.4.0  | ✔️  |
+| Windows 10 | 5.1.0  | ✔️  |
 | Ubuntu 16.04 LTS | 4.2.2       |   ✔️|
 
 
