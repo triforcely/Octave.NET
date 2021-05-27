@@ -25,14 +25,6 @@ mathematical problems. This library is an attempt to bridge Octave and .NET worl
   or specify path to octave-cli binary in your code 
 - Check the 'examples' folder
 
-## Confirmed compatibility
-
-| OS            | Octave | Status |
-| ------------- |:--------------:| ------------:|
-| Windows 10 | 4.4.0  | ✔️  |
-| Windows 10 | 5.1.0  | ✔️  |
-| Ubuntu 16.04 LTS | 4.2.2       |   ✔️|
-
 
 ## How It's Made? 
 This library spawns octave processes and controls them via standard streams (stdin, stdout and stderr). To keep optimal performance every time OctaveContext is disposed underlying octave-cli process is returned to the object pool, so we don't waste time on spawning new worker processes.
